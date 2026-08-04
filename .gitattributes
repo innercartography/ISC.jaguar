@@ -1,0 +1,11 @@
+# Binary capture data — never diff or convert line endings
+*.bin binary
+*.lci binary
+*.lcp binary
+*.ply binary
+*.jpg binary
+*.spz binary
+
+# If large exports (>100MB, e.g. a raw 3DGS PLY) get added later,
+# install Git LFS and uncomment:
+# exports/*.ply filter=lfs diff=lfs merge=lfs -text
