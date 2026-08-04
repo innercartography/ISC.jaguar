@@ -1,48 +1,93 @@
-# Jaguar — Immersive Story Club scan of Gray Area
+<div align="center">
 
-A 3D Gaussian splat capture of [Gray Area](https://grayarea.org) (San Francisco), scanned with an **XGRIDS PortalCam** for the **Immersive Story Club**. This repo is our shared base camp: grab the scan, build a world with it, tell a story in it, and bring what you make back to the club.
+<img src="media/banner.svg" alt="ISC ✦ JAGUAR — a Gray Area world cast in 2.3 million splats" width="100%"/>
 
-- **~2.34 million splats**, 3 levels of detail, scene footprint roughly 39m × 23m × 10m
-- Captured/processed with Lixel Studio 1.11 (LCC format v5.0, "Portable" profile)
-- Discord is where we talk; this repo is where the world lives.
+<br/>
 
-## What's in here
+![Splats](https://img.shields.io/badge/✦_splats-2,336,563-00f0ff?style=for-the-badge&labelColor=0a0620)
+![Format](https://img.shields.io/badge/⬢_format-LCC_v5.0_Portable-a26bff?style=for-the-badge&labelColor=0a0620)
+![LODs](https://img.shields.io/badge/◈_levels_of_detail-3-ff3ec8?style=for-the-badge&labelColor=0a0620)
+![License](https://img.shields.io/badge/⚖_license-CC_BY_4.0_(proposed)-7df9ff?style=for-the-badge&labelColor=0a0620)
 
-| Path | What it is |
+<h3><em>Every server is a world. This is the first stone of ours.</em></h3>
+
+</div>
+
+---
+
+## 🜂 The Legend
+
+Somewhere in San Francisco stands [**Gray Area**](https://grayarea.org) — a temple where art and technology have been colliding for years. One night, the **Immersive Story Club** walked its halls with an XGRIDS **PortalCam** and pulled the whole room through the lens: **2.34 million points of light**, frozen mid-shimmer, roughly **39m × 23m × 10m** of real space folded into a file.
+
+This repository is that captured world — our **hippoCAMP**. Base camp and memory palace in one. The Discord is where we gather around the fire; this repo is the territory itself. Clone it, walk it, bend it, haunt it, and bring back stories.
+
+> 🌀 **New traveler?** Start with [Portals](#-portals--how-to-enter-the-world) below. If you build in Unity or Unreal, you can be *standing inside Gray Area* in about ten minutes.
+
+---
+
+## 💠 The Cargo Manifest
+
+| Artifact | What it truly is |
 |---|---|
-| `lcc-result/` | The full Gaussian splat scene in XGRIDS **LCC** format (`Jaguar.lcc` is the manifest; `data.bin` holds the splats; `collision.lci` + `environment.bin` are physics & environment data; `assets/poses.json` is the capture trajectory) |
-| `mesh-files/Jaguar.ply` | Low-poly **collision mesh** (26,711 verts / 48,968 tris, binary PLY, no color). Good for physics, nav meshes, and blocking out — it is *not* the pretty version |
-| `exports/` | Standard-format exports (3DGS `.ply` / `.spz`) go here as we make them — see the wishlist below |
+| 🔮 `lcc-result/` | **The world itself.** Gaussian splat scene in XGRIDS LCC format — `Jaguar.lcc` is the sigil (manifest), `data.bin` holds all 2.3M splats across 3 LODs, `collision.lci` + `environment.bin` carry physics & ambience, `assets/poses.json` is the path the scanner walked |
+| 🦴 `mesh-files/Jaguar.ply` | **The skeleton.** Low-poly collision mesh — 26,711 verts / 48,968 tris, binary PLY, *no color*. Perfect for physics, nav meshes, and blockouts. It is not the pretty one. Do not fall in love with it |
+| 🌌 `exports/` | **The translation chamber.** Standard-format exports (3DGS `.ply` / `.spz`) will materialize here — see [Quests](#-quests--help-wanted) |
+| ✨ `media/` | Banners, thumbnails, and other glow |
 
-## How to open it
+---
 
-The LCC format is XGRIDS-native. Free tooling from [xgrids.com](https://xgrids.com):
+## 🌀 Portals — how to enter the world
 
-- **Unity** — the *LCC for Unity* plugin loads `Jaguar.lcc` directly, with LODs and the collision data. Best path for interactive/VR builds.
-- **Unreal** — *LCC for Unreal* plugin, same deal.
-- **Desktop viewing** — Lixel Studio opens the scene and can re-export to standard formats.
-- **Web** — XGRIDS' LCC for Web SDK / Reveal can serve the Portable LCC in a browser.
-- **The mesh** (`mesh-files/Jaguar.ply`) opens in Blender, MeshLab, or anything else — remember it's uncolored collision geometry.
+The LCC format is XGRIDS-native. Free keys to the gate at [xgrids.com](https://xgrids.com):
 
-### Don't have XGRIDS tools?
+- 🎮 **Unity** — the *LCC for Unity* plugin loads `Jaguar.lcc` straight in: splats, LODs, collision, everything. **The royal road for VR builds.**
+- 🛸 **Unreal** — *LCC for Unreal* plugin. Same power, different engine.
+- 🖥️ **Desktop** — *Lixel Studio* opens the scene for viewing, cleanup, and re-export to common formats.
+- 🌐 **Web** — XGRIDS' *LCC for Web* SDK / Reveal can serve the Portable LCC in a browser.
+- 🦴 **The skeleton** (`mesh-files/Jaguar.ply`) opens anywhere — Blender, MeshLab, three.js — but remember: uncolored collision geometry only.
 
-You want a standard **3DGS export** — see the wishlist. Once an `exports/Jaguar.spz` or `exports/Jaguar-3dgs.ply` lands here, you can:
+### ⚗️ No XGRIDS tools? The universal translation
 
-- Drop it into [SuperSplat](https://superspl.at/editor) in your browser — edit, clean up, and publish a shareable walk-around link (works on Quest browser in VR, no install)
-- Import to Blender via a 3DGS add-on, or into Polycam, Gracia, and friends
+What you want is a standard **3DGS export** — the first quest below. Once `exports/Jaguar.spz` (or a 3DGS `.ply`) lands here, the world opens to everyone:
 
-## Wishlist / help wanted
+- 🕶️ Drop it into [**SuperSplat**](https://superspl.at/editor) in your browser — edit, clean, then **publish a walk-around link** that works on any laptop *and in VR straight from a Quest headset's browser*. No installs. One link. That link is the true Discord artifact.
+- 🎨 Import into Blender via a 3DGS add-on, or Polycam, Gracia, and the rest of the multiverse.
 
-- [ ] **Export standard 3DGS `.ply` and `.spz` from Lixel Studio** and commit to `exports/` (SPZ is ~10× smaller — the raw PLY of 2.3M splats will be ~500MB+ and needs Git LFS, so prefer SPZ)
-- [ ] Publish a SuperSplat scene link so Discord folks can walk the space with one click, zero installs
-- [ ] A cleaned-up / cropped hero version of the scan (kill the floaters)
-- [ ] A brighter thumbnail — `lcc-result/thumb.jpg` came out dark
-- [ ] First story experiments: what happened in this room?
+---
 
-## Contributing
+## ⚔️ Quests — help wanted
 
-Fork it, remix it, PR it. Keep the raw capture in `lcc-result/` untouched — add new versions under `exports/` or your own folder. Share works-in-progress in the Discord.
+| | Quest | Reward |
+|---|---|---|
+| ☐ | **Forge the universal key** — export standard 3DGS `.ply` + `.spz` from Lixel Studio into `exports/` (prefer `.spz`: ~10× smaller; a raw 2.3M-splat PLY is ~500MB and would summon Git LFS) | The world opens to every tool |
+| ☐ | **Light the beacon** — publish a SuperSplat scene link; pin it in Discord | One-click entry for all travelers |
+| ☐ | **Banish the floaters** — a cleaned, cropped hero cut of the scan | Beauty |
+| ☐ | **Restore the true image** — `lcc-result/thumb.jpg` came out dark; capture a luminous replacement | A worthy face for the repo |
+| ☐ | **First stories** — what happened in this room? Build it. Show us | Legend status |
 
-## License
+---
 
-**Proposed: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)** — remix freely, credit the Immersive Story Club. Not final until the club confirms; if you have opinions, raise them in the Discord.
+## 📜 The Codex (contributing)
+
+Fork it. Remix it. PR it. Three laws:
+
+1. 🏛️ The raw capture in `lcc-result/` is **sacred ground** — never modify it in place.
+2. 🌱 New versions, cuts, and translations go in `exports/` or your own named folder.
+3. 🔥 Works-in-progress belong around the fire — share early in the Discord.
+
+---
+
+## ⚖️ The Pact (license)
+
+**Proposed: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)** — remix freely, credit *"Immersive Story Club — Gray Area scan (Jaguar)."*
+Not final until the club speaks. Opinions → the Discord.
+
+---
+
+<div align="center">
+
+🜂 &nbsp; *scanned at Gray Area · San Francisco · MMXXVI* &nbsp; 🜂
+
+<sub>**IMMERSIVE STORY CLUB** — birthed in Discord, destined for the medium that doesn't have a name yet</sub>
+
+</div>

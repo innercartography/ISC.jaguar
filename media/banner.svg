@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-label="ISC Jaguar — hyperspace banner">
+  <defs>
+    <radialGradient id="space" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#12082b"/>
+      <stop offset="55%" stop-color="#0a0620"/>
+      <stop offset="100%" stop-color="#040211"/>
+    </radialGradient>
+    <linearGradient id="neon" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="45%" stop-color="#a26bff"/>
+      <stop offset="100%" stop-color="#ff3ec8"/>
+    </linearGradient>
+    <linearGradient id="neon2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff3ec8"/>
+      <stop offset="100%" stop-color="#00f0ff"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.10"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigglow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="360" fill="url(#space)"/>
+
+  <!-- hyperspace streaks -->
+  <g stroke-linecap="round" opacity="0.85">
+    <line x1="30"   y1="40"  x2="150"  y2="52"  stroke="#00f0ff" stroke-width="2" opacity="0.55" filter="url(#glow)"/>
+    <line x1="90"   y1="300" x2="240"  y2="286" stroke="#ff3ec8" stroke-width="2" opacity="0.45" filter="url(#glow)"/>
+    <line x1="1050" y1="60"  x2="1170" y2="48"  stroke="#a26bff" stroke-width="2" opacity="0.55" filter="url(#glow)"/>
+    <line x1="980"  y1="310" x2="1140" y2="322" stroke="#00f0ff" stroke-width="2" opacity="0.45" filter="url(#glow)"/>
+    <line x1="200"  y1="120" x2="330"  y2="118" stroke="#7df9ff" stroke-width="1.5" opacity="0.35"/>
+    <line x1="860"  y1="140" x2="1010" y2="136" stroke="#ff9bf0" stroke-width="1.5" opacity="0.35"/>
+    <line x1="140"  y1="210" x2="60"   y2="214" stroke="#a26bff" stroke-width="1.5" opacity="0.4"/>
+    <line x1="1060" y1="230" x2="1160" y2="238" stroke="#7df9ff" stroke-width="1.5" opacity="0.4"/>
+  </g>
+
+  <!-- splat starfield -->
+  <g fill="#ffffff">
+    <circle cx="75"  cy="90"  r="1.6" opacity="0.9"/>
+    <circle cx="180" cy="250" r="1.2" opacity="0.6"/>
+    <circle cx="260" cy="60"  r="1.4" opacity="0.7"/>
+    <circle cx="335" cy="300" r="1.1" opacity="0.5"/>
+    <circle cx="870" cy="70"  r="1.4" opacity="0.8"/>
+    <circle cx="945" cy="280" r="1.2" opacity="0.6"/>
+    <circle cx="1040" cy="150" r="1.6" opacity="0.9"/>
+    <circle cx="1120" cy="90"  r="1.1" opacity="0.5"/>
+    <circle cx="120" cy="160" r="1.2" opacity="0.6"/>
+    <circle cx="1090" cy="300" r="1.4" opacity="0.7"/>
+  </g>
+  <g>
+    <circle cx="220" cy="180" r="2.6" fill="#00f0ff" opacity="0.8" filter="url(#glow)"/>
+    <circle cx="1010" cy="210" r="2.6" fill="#ff3ec8" opacity="0.8" filter="url(#glow)"/>
+    <circle cx="310" cy="240" r="2.2" fill="#a26bff" opacity="0.8" filter="url(#glow)"/>
+    <circle cx="920" cy="120" r="2.2" fill="#7df9ff" opacity="0.8" filter="url(#glow)"/>
+  </g>
+
+  <!-- glass panel -->
+  <g>
+    <rect x="330" y="86" width="540" height="188" rx="26" fill="url(#glass)" stroke="url(#neon)" stroke-width="2" filter="url(#glow)"/>
+    <rect x="342" y="96" width="516" height="60" rx="18" fill="#ffffff" opacity="0.045"/>
+  </g>
+
+  <!-- title -->
+  <text x="600" y="172" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="10" fill="url(#neon)" filter="url(#bigglow)">ISC ✦ JAGUAR</text>
+  <text x="600" y="212" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="19" letter-spacing="6" fill="#9fdcff" opacity="0.95">A  GRAY  AREA  WORLD  ·  CAST  IN  2.3  MILLION  SPLATS</text>
+  <text x="600" y="248" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4" fill="#ff9bf0" opacity="0.9">IMMERSIVE STORY CLUB · EVERY SERVER IS A WORLD</text>
+
+  <!-- portal rings -->
+  <g fill="none" stroke-width="2">
+    <circle cx="160" cy="180" r="46" stroke="url(#neon2)" opacity="0.8" filter="url(#glow)"/>
+    <circle cx="160" cy="180" r="30" stroke="#00f0ff" opacity="0.5"/>
+    <circle cx="160" cy="180" r="14" stroke="#ff3ec8" opacity="0.6"/>
+    <circle cx="1040" cy="180" r="46" stroke="url(#neon2)" opacity="0.8" filter="url(#glow)"/>
+    <circle cx="1040" cy="180" r="30" stroke="#ff3ec8" opacity="0.5"/>
+    <circle cx="1040" cy="180" r="14" stroke="#00f0ff" opacity="0.6"/>
+  </g>
+</svg>
