@@ -11,6 +11,10 @@
 
 <h3><em>Every server is a world. This is the first stone of ours.</em></h3>
 
+<br/>
+
+<a href="https://innercartography.github.io/ISC.jaguar/"><img src="https://img.shields.io/badge/🌀_ENTER_THE_WORLD-walk_Gray_Area_in_your_browser-ff3ec8?style=for-the-badge&labelColor=0a0620" alt="Enter the world"/></a>
+
 </div>
 
 ---
@@ -31,6 +35,7 @@ This repository is that captured world — our **hippoCAMP**. Base camp and memo
 |---|---|
 | 🔮 `lcc-result/` | **The world itself.** Gaussian splat scene in XGRIDS LCC format — `Jaguar.lcc` is the sigil (manifest), `data.bin` holds all 2.3M splats across 3 LODs, `collision.lci` + `environment.bin` carry physics & ambience, `assets/poses.json` is the path the scanner walked |
 | 🦴 `mesh-files/Jaguar.ply` | **The skeleton.** Low-poly collision mesh — 26,711 verts / 48,968 tris, binary PLY, *no color*. Perfect for physics, nav meshes, and blockouts. It is not the pretty one. Do not fall in love with it |
+| 🌀 `viewer/` | **The portal.** Three.js + LCC Web SDK viewer — [enter here](https://innercartography.github.io/ISC.jaguar/), or run locally and **fork a layer** (see below) |
 | 🌌 `exports/` | **The translation chamber.** Standard-format exports (3DGS `.ply` / `.spz`) will materialize here — see [Quests](#-quests--help-wanted) |
 | ✨ `media/` | Banners, thumbnails, and other glow |
 
@@ -60,19 +65,31 @@ What you want is a standard **3DGS export** — the first quest below. Once `exp
 | | Quest | Reward |
 |---|---|---|
 | ☐ | **Forge the universal key** — export standard 3DGS `.ply` + `.spz` from Lixel Studio into `exports/` (prefer `.spz`: ~10× smaller; a raw 2.3M-splat PLY is ~500MB and would summon Git LFS) | The world opens to every tool |
-| ☐ | **Light the beacon** — publish a SuperSplat scene link; pin it in Discord | One-click entry for all travelers |
+| ☑ | **Light the beacon** — one-click browser entry, live at [the portal](https://innercartography.github.io/ISC.jaguar/) | ✦ done |
+| ☐ | **Lay the first tracks** — roam the viewer, capture waypoints, fork the first story layers | Your name in the lineage |
 | ☐ | **Banish the floaters** — a cleaned, cropped hero cut of the scan | Beauty |
 | ☐ | **Restore the true image** — `lcc-result/thumb.jpg` came out dark; capture a luminous replacement | A worthy face for the repo |
 | ☐ | **First stories** — what happened in this room? Build it. Show us | Legend status |
 
 ---
 
+## 🧬 Layers — how the world compounds
+
+The viewer speaks in **layers**: one storyteller's waypoints and views over the shared scan. The scan is immutable; layers stack on top, and every layer names the layer it forked from — so contributions **compound**, and anything you see **traces back to the original capture** in one glance (the HUD shows the full lineage: `origin → mika → you`).
+
+Fork one in four steps — full guide in [`viewer/README.md`](viewer/README.md):
+
+1. Copy `viewer/src/layers/origin.js` to `<your-handle>-<story>.js`
+2. Set `author`, `tint`, and the sacred field: `forkedFrom`
+3. Roam free (`M`), capture waypoints (`P`), paste them in
+4. Register in `layers/index.js` → PR it back → your world joins the stack
+
 ## 📜 The Codex (contributing)
 
 Fork it. Remix it. PR it. Three laws:
 
 1. 🏛️ The raw capture in `lcc-result/` is **sacred ground** — never modify it in place.
-2. 🌱 New versions, cuts, and translations go in `exports/` or your own named folder.
+2. 🌱 New versions, cuts, and translations go in `exports/`, new stories go in `viewer/src/layers/` — never edit someone else's layer; fork it.
 3. 🔥 Works-in-progress belong around the fire — share early in the Discord.
 
 ---
