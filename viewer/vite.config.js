@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const LCC_DIR = path.resolve(here, '..', 'lcc-result');
+const MESH_DIR = path.resolve(here, '..', 'mesh-files');
 
 // The canonical scan lives once, at the repo root (lcc-result/). The viewer
 // serves it under /assets/jaguar/ instead of keeping a 75MB duplicate in
@@ -20,8 +21,12 @@ function lccScanPlugin() {
       server.middlewares.use('/assets/jaguar', (req, res, next) => {
         const rel = decodeURIComponent(req.url.split('?')[0]).replace(/^\/+/, '');
         const mapped = RENAMES[rel] ?? rel;
-        const file = path.join(LCC_DIR, mapped);
-        if (!file.startsWith(LCC_DIR) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+        // mesh/* serves the collision mesh from repo-root mesh-files/
+        const file = mapped.startsWith('mesh/')
+          ? path.join(MESH_DIR, mapped.slice(5))
+          : path.join(LCC_DIR, mapped);
+        const allowedRoot = mapped.startsWith('mesh/') ? MESH_DIR : LCC_DIR;
+        if (!file.startsWith(allowedRoot) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
           return next();
         }
         res.setHeader('Content-Type', file.endsWith('.json') || file.endsWith('.lcc')
@@ -53,7 +58,8 @@ function lccScanPlugin() {
         fs.cpSync(path.join(LCC_DIR, entry), path.join(out, entry), { recursive: true });
       }
       fs.renameSync(path.join(out, RENAMES['meta.lcc']), path.join(out, 'meta.lcc'));
-      console.log(`[isc-lcc-scan] scan copied into ${out}`);
+      fs.cpSync(path.join(MESH_DIR, 'Jaguar.ply'), path.join(out, 'mesh', 'Jaguar.ply'));
+      console.log(`[isc-lcc-scan] scan + mesh copied into ${out}`);
     }
   };
 }
