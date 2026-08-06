@@ -304,6 +304,7 @@ export function buildPortal() {
 
   const fill = el.querySelector('.portal-bar-fill');
   const pill = el.querySelector('.portal-pill');
+  let closed = false;
 
   return {
     progress(fraction) {
@@ -312,6 +313,8 @@ export function buildPortal() {
       pill.textContent = `${(clamped * 100).toFixed(0)}%`;
     },
     close() {
+      if (closed) return;
+      closed = true;
       pill.textContent = 'entering';
       animate(el, {
         opacity: [1, 0],

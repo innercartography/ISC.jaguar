@@ -13,6 +13,7 @@ import { LCCRender } from '../lcc/lcc-web-sdk.js';
 import { TrackController } from '../track.js';
 import { LAYERS } from '../layers/index.js';
 import { buildPortal } from '../ui.js';
+import { armPortalWatchdog } from '../portal-watchdog.js';
 import { buildClubHud, buildNotePanel } from './club-hud.js';
 import { createTotemOverlay } from './overlay.js';
 import { ensureAuthor, loadLayer, saveLayer, plantTotem, removeTotem, exportLayer } from './totems.js';
@@ -167,6 +168,9 @@ renderer.domElement.addEventListener('pointerup', (e) => {
 
 const portal = buildPortal();
 
+let progressed = false;
+armPortalWatchdog({ portal, scene, hasProgress: () => progressed });
+
 const lccObj = LCCRender.load(
   {
     camera,
@@ -185,7 +189,10 @@ const lccObj = LCCRender.load(
     console.log('Jaguar loaded (club):', mesh);
     portal.close();
   },
-  (percent) => portal.progress(percent),
+  (percent) => {
+    progressed = true;
+    portal.progress(percent);
+  },
   () => {
     console.error('Jaguar failed to load');
     portal.fail('THE PORTAL RESISTS — reload to retry');

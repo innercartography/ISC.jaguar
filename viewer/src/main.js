@@ -5,6 +5,7 @@ import { LCCRender } from './lcc/lcc-web-sdk.js';
 import { TrackController } from './track.js';
 import { LAYERS } from './layers/index.js';
 import { buildHud, buildPortal } from './ui.js';
+import { armPortalWatchdog } from './portal-watchdog.js';
 
 const scene = new THREE.Scene();
 
@@ -100,6 +101,9 @@ const modelMatrix = new THREE.Matrix4(
 
 const portal = buildPortal();
 
+let progressed = false;
+armPortalWatchdog({ portal, scene, hasProgress: () => progressed });
+
 const lccObj = LCCRender.load(
   {
     camera,
@@ -120,6 +124,7 @@ const lccObj = LCCRender.load(
     portal.close();
   },
   (percent) => {
+    progressed = true;
     portal.progress(percent);
   },
   () => {
