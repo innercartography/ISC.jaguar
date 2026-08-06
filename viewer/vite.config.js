@@ -66,5 +66,13 @@ function lccScanPlugin() {
 
 export default defineConfig({
   base: './',
-  plugins: [lccScanPlugin()]
+  plugins: [lccScanPlugin()],
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(here, 'index.html'),
+        club: path.resolve(here, 'club', 'index.html')
+      }
+    }
+  }
 });
