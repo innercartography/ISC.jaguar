@@ -3,7 +3,7 @@
    Electric Iris for the one primary action, Saffron Spark for labels.
    The emoji are the only saturated color — let them carry it. */
 
-/* ---------- emoji compose palette ---------- */
+/* ---------- totem forge ---------- */
 
 .hud-compose {
   display: flex;
@@ -12,40 +12,55 @@
   align-items: flex-start;
 }
 
-.compose-palette {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-}
-
-.compose-glyph {
+/* the ring being forged — a horizontal cartouche: black fill, Electric
+   Iris ring. Dashed while empty, solid once it holds glyphs. */
+.compose-cartouche {
   pointer-events: auto;
-  background: none;
-  border: none;
-  padding: 2px;
-  font-size: 20px;
-  line-height: 1.2;
-  cursor: pointer;
-  filter: grayscale(0.55) brightness(0.9);
-  transition: filter 0.15s ease, transform 0.15s ease;
-}
-
-.compose-glyph:hover {
-  filter: none;
-  transform: scale(1.25);
-}
-
-.compose-stack {
   min-height: 34px;
+  min-width: 150px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  background: var(--color-void);
+  border: 1.5px dashed rgba(128, 82, 255, 0.5);
+  border-radius: 9999px;
+  padding: 8px 18px;
+}
+
+.compose-cartouche--charged {
+  border-style: solid;
+  border-color: var(--color-electric-iris);
 }
 
 .compose-stack-glyphs {
   font-size: 27px;
   line-height: 1;
   letter-spacing: 4px;
+}
+
+/* the full library — emoji-picker-element themed into the void */
+.compose-picker {
+  pointer-events: auto;
+  width: 100%;
+  height: 300px;
+  border: 1.5px solid rgba(128, 82, 255, 0.45);
+  border-radius: 12px;
+  --background: #000000;
+  --border-color: rgba(128, 82, 255, 0.25);
+  --border-size: 0;
+  --category-emoji-size: 1rem;
+  --emoji-size: 1.15rem;
+  --num-columns: 7;
+  --indicator-color: var(--color-electric-iris);
+  --indicator-height: 2px;
+  --input-border-color: rgba(128, 82, 255, 0.45);
+  --input-border-radius: 9999px;
+  --input-font-color: #ffffff;
+  --input-placeholder-color: #9a9a9a;
+  --outline-color: var(--color-electric-iris);
+  --button-hover-background: rgba(128, 82, 255, 0.18);
+  --button-active-background: rgba(128, 82, 255, 0.3);
 }
 
 .compose-stack-empty {
@@ -147,37 +162,67 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
   will-change: transform;
   transform-origin: bottom center;
+}
+
+/* the shen ring: elongated vertical ring, black fill, Electric Iris
+   border, knot bar at the base. Dashed until the totem holds a note —
+   the ring closes when the utterance is complete. */
+.totem-cartouche {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-void);
+  border: 1.5px dashed rgba(128, 82, 255, 0.65);
+  border-radius: 9999px;
+  padding: 12px 9px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.totem--noted .totem-cartouche {
+  border-style: solid;
+  border-color: var(--color-electric-iris);
+  box-shadow: 0 0 18px rgba(128, 82, 255, 0.35);
+}
+
+.totem:hover .totem-cartouche {
+  border-color: var(--color-electric-iris);
+  box-shadow: 0 0 22px rgba(128, 82, 255, 0.5);
 }
 
 .totem-stack {
   display: block;
   white-space: pre;
-  font-size: 30px;
-  line-height: 1.15;
+  font-size: 26px;
+  line-height: 1.25;
   text-align: center;
-  text-shadow: 0 0 14px rgba(0, 0, 0, 0.9);
-  transition: transform 0.15s ease;
 }
 
-.totem:hover .totem-stack {
-  transform: scale(1.12);
+/* the shen's tangent bar — the knot that seals the ring */
+.totem-knot {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin-top: 3px;
+  background: var(--color-electric-iris);
+  opacity: 0.8;
 }
 
 .totem-stem {
   display: block;
   width: 1.5px;
-  height: 26px;
+  height: 22px;
   background: linear-gradient(to bottom, var(--color-electric-iris), transparent);
 }
 
-.totem--noted .totem-stem {
-  background: linear-gradient(to bottom, var(--color-deep-verdant), transparent);
-}
-
 /* ---------- note panel (right column, mirrors the HUD scrim) ---------- */
+
+.note-panel[hidden] {
+  /* the class's display:flex would otherwise defeat the hidden attribute —
+     this was why "done" left the note stuck on screen */
+  display: none;
+}
 
 .note-panel {
   position: fixed;

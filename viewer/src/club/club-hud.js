@@ -1,17 +1,13 @@
-// The club layer's HUD: same ghost-text-on-void language as the root
-// viewer, plus the totem composer. One violet pill per view (Plant); when
-// armed it flips amber. Note panel slides in on the right as a mirrored
-// scrim — still no boxes, no borders.
+// The club layer's HUD: ghost text on the void, plus the totem forge.
+// The compose preview is itself a cartouche — you are forging the ring
+// before you plant it. The palette is the full emoji library (searchable,
+// every glyph, skin tones) served offline from bundled data. The note
+// panel opens out of its totem and pops back into it on done.
 
-import { animate, stagger } from 'animejs';
+import { animate } from 'animejs';
+import { Picker } from 'emoji-picker-element';
+import emojiDataUrl from 'emoji-picker-element-data/en/emojibase/data.json?url';
 import { MAX_GLYPHS, capState, setHandle } from './totems.js';
-
-const PALETTE = [
-  '🐆', '✨', '🔥', '🌊', '🌙', '☀️', '🌿',
-  '🌸', '🍄', '🦋', '🐍', '🦉', '👁️', '🗝️',
-  '🚪', '🌀', '⚡', '💎', '🕯️', '🎭', '📖',
-  '🎨', '🎵', '♾️', '⭐', '🪶', '🫀', '🌋'
-];
 
 export function buildClubHud({ locations, author, layer, onSelectView, onArmChange, onExport }) {
   const root = document.createElement('div');
@@ -33,7 +29,7 @@ export function buildClubHud({ locations, author, layer, onSelectView, onArmChan
   root.appendChild(trackLabel);
 
   const menu = document.createElement('div');
-  menu.className = 'hud-menu';
+  menu.className = 'hud-menu hud-menu--compact';
   root.appendChild(menu);
 
   locations.forEach((location) => {
@@ -47,30 +43,19 @@ export function buildClubHud({ locations, author, layer, onSelectView, onArmChan
     menu.appendChild(stop);
   });
 
-  animate(menu.querySelectorAll('.hud-stop'), {
-    opacity: [0, 1],
-    translateX: [-12, 0],
-    delay: stagger(70),
-    duration: 500,
-    ease: 'outCubic'
-  });
-
-  // --- totem composer ---
+  // --- totem forge ---
   const composeLabel = document.createElement('div');
   composeLabel.className = 'hud-section-label';
-  composeLabel.textContent = 'Compose a Totem';
+  composeLabel.textContent = 'Forge a Totem';
   root.appendChild(composeLabel);
 
   const compose = document.createElement('div');
   compose.className = 'hud-compose';
   root.appendChild(compose);
 
-  const palette = document.createElement('div');
-  palette.className = 'compose-palette';
-  compose.appendChild(palette);
-
+  // the ring being forged — cartouche preview of the ordered stack
   const stackRow = document.createElement('div');
-  stackRow.className = 'compose-stack';
+  stackRow.className = 'compose-cartouche';
   compose.appendChild(stackRow);
 
   const stackGlyphs = document.createElement('span');
@@ -84,8 +69,13 @@ export function buildClubHud({ locations, author, layer, onSelectView, onArmChan
 
   const clear = document.createElement('button');
   clear.className = 'compose-clear';
-  clear.textContent = 'clear stack';
+  clear.textContent = 'clear the ring';
   compose.appendChild(clear);
+
+  // full emoji library — offline data, search, categories, skin tones
+  const picker = new Picker({ dataSource: emojiDataUrl });
+  picker.classList.add('dark', 'compose-picker');
+  compose.appendChild(picker);
 
   const plant = document.createElement('button');
   plant.className = 'compose-plant';
@@ -128,7 +118,7 @@ export function buildClubHud({ locations, author, layer, onSelectView, onArmChan
   const hint = document.createElement('div');
   hint.className = 'hud-hint';
   hint.innerHTML =
-    '<b>drag</b> look · <b>M</b> free-roam/track · <b>WASD</b> move (free) · compose, then <b>plant</b> and click the world';
+    '<b>drag</b> look · <b>M</b> free-roam/track · <b>WASD</b> move (free) · forge a ring, then <b>plant</b> and click the world';
   root.appendChild(hint);
 
   document.body.appendChild(root);
@@ -137,24 +127,24 @@ export function buildClubHud({ locations, author, layer, onSelectView, onArmChan
   const plantHint = document.createElement('div');
   plantHint.className = 'plant-hint';
   plantHint.hidden = true;
-  plantHint.textContent = 'click anywhere in the world to plant';
+  plantHint.textContent = 'click where it happened — the room is part of the sentence';
   document.body.appendChild(plantHint);
 
   // --- state ---
   let glyphStack = [];
   let armed = false;
 
-  PALETTE.forEach((glyph) => {
-    const b = document.createElement('button');
-    b.className = 'compose-glyph';
-    b.type = 'button';
-    b.textContent = glyph;
-    b.addEventListener('click', () => {
-      if (glyphStack.length >= MAX_GLYPHS) return;
-      glyphStack.push(glyph);
-      syncCompose();
+  picker.addEventListener('emoji-click', (e) => {
+    const glyph = e.detail.unicode ?? e.detail.emoji?.unicode;
+    if (!glyph || glyphStack.length >= MAX_GLYPHS) return;
+    glyphStack.push(glyph);
+    syncCompose();
+    animate(stackRow, {
+      scale: [
+        { to: 1.06, duration: 120, ease: 'outQuad' },
+        { to: 1, duration: 180, ease: 'outQuad' }
+      ]
     });
-    palette.appendChild(b);
   });
 
   clear.addEventListener('click', () => {
@@ -176,6 +166,7 @@ export function buildClubHud({ locations, author, layer, onSelectView, onArmChan
   function syncCompose() {
     stackGlyphs.textContent = glyphStack.join(' ');
     stackEmpty.style.display = glyphStack.length ? 'none' : '';
+    stackRow.classList.toggle('compose-cartouche--charged', glyphStack.length > 0);
     const caps = capState(layer, author.id);
     count.textContent = `${caps.total} / ${layer.cap.total ?? '∞'} planted in this layer`;
     if (caps.blocked) {
@@ -209,8 +200,12 @@ export function buildClubHud({ locations, author, layer, onSelectView, onArmChan
 }
 
 // --- note panel ------------------------------------------------------------
+// Opens out of its totem's cartouche and, on done, visually pops back into
+// it — the note "returns to the ring." anchorFor(totem) supplies the
+// totem's current screen position; onReturn(totem) lets the overlay bounce
+// the cartouche when the note lands.
 
-export function buildNotePanel({ onSave, onRemove }) {
+export function buildNotePanel({ onSave, onRemove, anchorFor, onReturn }) {
   const panel = document.createElement('div');
   panel.className = 'note-panel';
   panel.hidden = true;
@@ -232,6 +227,7 @@ export function buildNotePanel({ onSave, onRemove }) {
 
   let current = null;
   let statusTimer = null;
+  let animating = false;
 
   textEl.addEventListener('input', () => {
     if (!current) return;
@@ -246,9 +242,19 @@ export function buildNotePanel({ onSave, onRemove }) {
   panel.querySelector('.note-remove').addEventListener('click', () => {
     if (!current) return;
     const doomed = current;
-    close();
+    hide();
     onRemove(doomed);
   });
+
+  function resetTransform() {
+    panel.style.transform = '';
+    panel.style.opacity = '';
+  }
+
+  function panelCenter() {
+    const r = panel.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  }
 
   function open(totem) {
     current = totem;
@@ -256,13 +262,56 @@ export function buildNotePanel({ onSave, onRemove }) {
     textEl.value = totem.text ?? '';
     statusEl.textContent = '';
     panel.hidden = false;
-    animate(panel, { translateX: [40, 0], opacity: [0, 1], duration: 350, ease: 'outCubic' });
+    resetTransform();
+
+    const anchor = anchorFor?.(totem);
+    if (anchor) {
+      // grow out of the cartouche
+      const c = panelCenter();
+      animate(panel, {
+        translateX: [anchor.x - c.x, 0],
+        translateY: [anchor.y - c.y, 0],
+        scale: [0.05, 1],
+        opacity: [0, 1],
+        duration: 480,
+        ease: 'outCubic'
+      });
+    } else {
+      animate(panel, { translateX: [40, 0], opacity: [0, 1], duration: 350, ease: 'outCubic' });
+    }
     textEl.focus();
   }
 
-  function close() {
+  function hide() {
     current = null;
     panel.hidden = true;
+    resetTransform();
+  }
+
+  function close() {
+    if (!current || animating) return;
+    const totem = current;
+    const anchor = anchorFor?.(totem);
+    if (!anchor) {
+      hide();
+      return;
+    }
+    // shrink back into the cartouche, then bounce the ring
+    animating = true;
+    const c = panelCenter();
+    animate(panel, {
+      translateX: [0, anchor.x - c.x],
+      translateY: [0, anchor.y - c.y],
+      scale: [1, 0.05],
+      opacity: [1, 0],
+      duration: 460,
+      ease: 'inCubic',
+      onComplete: () => {
+        animating = false;
+        hide();
+        onReturn?.(totem);
+      }
+    });
   }
 
   return { open, close, isOpen: () => !panel.hidden };

@@ -84,7 +84,8 @@ export function plantTotem(layer, { glyphs, pos, authorId }) {
     glyphs: [...glyphs],
     pos: pos.map((v) => Math.round(v * 1000) / 1000),
     text: '',
-    author: authorId
+    author: authorId,
+    at: new Date().toISOString() // the moment is part of the utterance
   };
   layer.totems.push(totem);
   saveLayer(layer);

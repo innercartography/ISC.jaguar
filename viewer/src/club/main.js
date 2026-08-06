@@ -64,7 +64,9 @@ const notePanel = buildNotePanel({
     removeTotem(layer, totem);
     overlay.sync(layer.totems);
     hud.refreshCaps();
-  }
+  },
+  anchorFor: (totem) => overlay.screenPos(totem),
+  onReturn: (totem) => overlay.pop(totem)
 });
 
 const overlay = createTotemOverlay({
